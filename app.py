@@ -33,5 +33,7 @@ def not_found(error):
     return render_template('not_found.html'), 404
   
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+
 
