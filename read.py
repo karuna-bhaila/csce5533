@@ -92,8 +92,6 @@ def get_files(token, docs, weights):
 
 
 def get_documents(words):
-    # words = sys.argv[1:]
-
     filepath = 'temp.txt'
 
     # write input to file
@@ -110,34 +108,36 @@ def get_documents(words):
     # search token in dict, post, and map files
     docs = {}
     weights = {}
+    matches = {}
 
     for token in tokens:
         token = token.strip()
         docs, weights = get_files(token, docs, weights)   
 
+        for key, value in docs.items():
+            if key not in matches.keys():
+                matches[key] = [token]
+            else:
+                matches[key].append(token)
+        
     # sort accumulator by term weights
     weights = sorted(weights.items(), key=lambda x:x[1], reverse=True)
     weights = dict(weights)
 
     sorted_docs = []
+    sorted_matches = []
 
     if docs:
         for i, (key, value) in enumerate(weights.items()):
             if i < 10:
                 sorted_docs.append(key)
-
-    # # output top 10 files
-    # if not docs:
-    #     print('Query word(s) not found in any files.')
-    # else:
-    #     print('{:<10} {:<15} {:<15}'.format('DOC_ID', 'DOCUMENT', 'WEIGHT'))
-    #     for i, (key, value) in enumerate(weights.items()):
-    #         if i < 10:
-    #             print('{:<10} {:<15} {:<15}'.format(docs[key], key, value))
-    # print()
+                sorted_matches.append(matches[key])
 
     # remove temp file
     os.remove('temp.txt')
 
-    return sorted_docs
+    return sorted_docs, sorted_matches
+
+if __name__ == '__main__':
+    get_documents(['susan', 'gauch'])
  

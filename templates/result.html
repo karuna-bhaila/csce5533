@@ -46,10 +46,20 @@
 			<div class="col-lg-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						{% for item in docs %}
+						{% for item, tokens in docs %}
 							<div class="hr-line-dashed"></div>
 							<div class="search-result">
 								<a href="{{ url_for('result', name=item) }}" class="search-link" id="link">{{ item }}</a>
+								<p>
+
+								</p>
+
+								Matches keyword(s): 
+								{% for token in tokens %}
+									{{ token }}
+									{{ ", " if not loop.last else "" }}
+								{% endfor %}
+								
 								<p>
 		
 								</p>
