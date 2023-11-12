@@ -48,7 +48,7 @@ def get_files(token, docs, weights):
     while search_flag:
         # Find in dict file
         record = get_line(f, recordNum, DICT_SIZE)     
-        
+                
         if record[0] == token:
             doc_freq = int(record[1])
             start_index = int(record[2])
