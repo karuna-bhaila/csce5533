@@ -15,10 +15,10 @@ def query():
         query_words = request.form.get('query_terms')
 
         if query_words != '':
-            docs, matches = get_documents(query_words.split())
+            docs, matches, weights = get_documents(query_words.split())
 
             if len(docs) > 0:
-                return render_template('result.html', docs=zip(docs,matches), query_words=query_words)
+                return render_template('result.html', docs=zip(docs,matches,weights), query_words=query_words)
             else:
                 return render_template('error.html', query_words=query_words)
         else:

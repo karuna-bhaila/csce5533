@@ -128,12 +128,14 @@ def get_documents(words):
 
     sorted_docs = []
     sorted_matches = []
+    sorted_weights = []
 
     if docs:
         for i, (key, value) in enumerate(weights.items()):
             if i < 10:
                 sorted_docs.append(key)
                 sorted_matches.append(matches[key])
+                sorted_weights.append(value)
 
     # remove temp file
     os.remove('temp.txt')
@@ -141,7 +143,7 @@ def get_documents(words):
     # for i, j in zip(sorted_docs, sorted_matches):
     #     print(i, j)
 
-    return sorted_docs, sorted_matches
+    return sorted_docs, sorted_matches, sorted_weights
 
 if __name__ == '__main__':
     docs, matches = get_documents(['robot', 'launch', 'vaccum', 'gauch', 'susan'])

@@ -46,7 +46,7 @@
 			<div class="col-lg-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						{% for item, tokens in docs %}
+						{% for item, tokens, weight in docs %}
 							<div class="hr-line-dashed"></div>
 							<div class="search-result">
 								<a href="{{ url_for('result', name=item) }}" class="search-link" id="link">{{ item }}</a>
@@ -59,7 +59,7 @@
 									{{ token }}
 									{{ ", " if not loop.last else "" }}
 								{% endfor %}
-								
+								with weight {{ weight }}
 								<p>
 		
 								</p>
