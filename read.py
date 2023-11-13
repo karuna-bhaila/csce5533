@@ -31,7 +31,7 @@ def get_line(f, recordNum, record_size):
 
 
 # Displays top 10 documents containind input token with weights
-def get_files(token, docs, weights):
+def get_files(token, docs, weights, matches):
     # Get hashed index
     sum = 0
     recordNum = -1
@@ -81,14 +81,16 @@ def get_files(token, docs, weights):
                 if doc_map[1] not in weights.keys():
                     weights[doc_map[1]] = float(post[1])
                     docs[doc_map[1]] = doc_map[0]
+                    matches[doc_map[1]] = [token]
                 else:
                     weights[doc_map[1]] += float(post[1])
+                    matches[doc_map[1]].append(token)
 
         # close files
         p.close()
         m.close()
 
-    return docs, weights
+    return docs, weights, matches
 
 
 def get_documents(words):
@@ -106,19 +108,19 @@ def get_documents(words):
     tokens = tokenizer.tokenizeFile(inputFile=filepath, getTokens=True)
 
     # search token in dict, post, and map files
+    matches = {}
     docs = {}
     weights = {}
-    matches = {}
 
     for token in tokens:
         token = token.strip()
-        docs, weights = get_files(token, docs, weights)   
+        docs, weights, matches = get_files(token, docs, weights, matches)   
 
-        for key, value in docs.items():
-            if key not in matches.keys():
-                matches[key] = [token]
-            else:
-                matches[key].append(token)
+        # for key, value in temp_docs.items():
+        #     if key not in matches.keys():
+        #         matches[key] = [token]
+        #     else:
+        #         matches[key].append(token)
         
     # sort accumulator by term weights
     weights = sorted(weights.items(), key=lambda x:x[1], reverse=True)
@@ -136,8 +138,11 @@ def get_documents(words):
     # remove temp file
     os.remove('temp.txt')
 
+    # for i, j in zip(sorted_docs, sorted_matches):
+    #     print(i, j)
+
     return sorted_docs, sorted_matches
 
 if __name__ == '__main__':
-    get_documents(['susan', 'gauch'])
+    docs, matches = get_documents(['robot', 'launch', 'vaccum', 'gauch', 'susan'])
  
