@@ -135,7 +135,7 @@ def get_documents(words):
             if i < 10:
                 sorted_docs.append(key)
                 sorted_matches.append(matches[key])
-                sorted_weights.append(value)
+                sorted_weights.append(round(value,3))
 
     # remove temp file
     os.remove('temp.txt')
